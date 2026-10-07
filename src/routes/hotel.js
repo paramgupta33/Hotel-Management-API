@@ -79,13 +79,22 @@ router.patch("/:id", (req, res) => {
 // DELETE a specific hotel by ID using the ownerId for authorization and jwt token for authentication
 router.delete("/:id", (req, res) => {
     const hotelId = req.params.id;
-    const hotelIndex = hotels.findIndex(h => h.id === parseInt(hotelId));
+
+    const hotelIndex = hotels.findIndex(
+        h => h.id === parseInt(hotelId)
+    );
 
     if (hotelIndex === -1) {
-        return res.status(404).json({ message: "Hotel not found" });
+        return res.status(404).json({
+            message: "Hotel not found"
+        });
     }
-    const authHeader = req.headers.authorization; // Assuming the JWT token is sent in the Authorization header
-    
+
+    hotels.splice(hotelIndex, 1);
+
+    res.status(200).json({
+        message: "Hotel deleted successfully"
+    });
 });
 
-export default router;
+module.exports = router;

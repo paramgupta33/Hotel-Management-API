@@ -1,36 +1,35 @@
 const express = require('express');
+require("dotenv").config();
+
+const authMiddleware = require("./middleware/authMiddleware");
 const app = express();
 const PORT = process.env.PORT || 3000;
-import hotelRouter from './routes/hotel.js';
-import userRouter from './routes/user.js';
-import bookingRouter from './routes/booking.js';
-import roomRouter from './routes/room.js';
 
 // Middleware
 app.use(express.json());
 
 // Import routers
 const hotelRouter = require("./routes/hotel");
-// Mount router
+// Mount router 
 app.use("/hotels", hotelRouter);
 
 
 // Import routers
-const userRouter = require("./routes/user");
+const authenticationRouter = require("./routes/authentication");
 // Mount router
-app.use("/users", userRouter);
+app.use("/users", authenticationRouter);
 
 
 // Import routers
-const bookingRouter = require("./routes/booking");
+const bookingRouter = require("./routes/bookings");
 // Mount router
-app.use("/bookings", bookingRouter);
+app.use("/bookings", authmiddleware, bookingRouter);
 
 
 // Import routers
-const roomRouter = require("./routes/room");
+const roomRouter = require("./routes/rooms");
 // Mount router
-app.use("/rooms", roomRouter);
+app.use("/rooms", authmiddleware, roomRouter);
 
 
 
